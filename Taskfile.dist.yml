@@ -12,6 +12,3 @@ tasks:
     test:unit:watch:
         cmds:
             - pnpm test:watch
-    test:e2e:
-        cmds:
-            - docker-compose -f .docker/e2e/docker-compose.yml up --abort-on-container-exit --exit-code-from server
