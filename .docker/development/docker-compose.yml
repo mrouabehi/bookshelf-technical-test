@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+    server:
+        build:
+            context: ../..
+            dockerfile: ./.docker/development/Dockerfile
+        image: bookshelf/server:development
+        container_name: server
+        depends_on:
+            - db
+        networks:
+            - bookshelf
+        ports:
+            - "3000:3000"
+        volumes:
+            - ../..:/usr/src/app
+            - /usr/src/app/node_modules
+        environment:
+            NODE_ENV: development
+            PORT: 3000
+            DATABASE_HOST: db
+            DATABASE_PORT: 5432
+            DATABASE_NAME: bookshelf
+            DATABASE_USERNAME: bookshelf_user
+            DATABASE_PASSWORD: bookshelf_password
+            DATABASE_LOGGING: true
+            DATABASE_SYNCHRONIZE: true
+            ACCESS_TOKEN_KEY: 5867f0de-99af-4092-a077-dd57e5b48ebb
+            ACCESS_TOKEN_EXPIRATION: 25m
+            REFRESH_TOKEN_KEY: 6b443c81-d1de-4454-8b52-e65ebac8d271
+            REFRESH_TOKEN_EXPIRATION: 4w
+        command: pnpm start:dev
+    db:
+        image: postgres
+        restart: always
+        container_name: database
+        networks:
+            - bookshelf
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: bookshelf
+            POSTGRES_USER: bookshelf_user
+            POSTGRES_PASSWORD: bookshelf_password
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+    pgadmin:
+        container_name: pgadmine
+        image: dpage/pgadmin4
+        restart: always
+        networks:
+            - bookshelf
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@admin.com
+            PGADMIN_DEFAULT_PASSWORD: root
+        ports:
+            - "5050:80"
+
+volumes:
+    pgdata:
+
+networks:
+    bookshelf:

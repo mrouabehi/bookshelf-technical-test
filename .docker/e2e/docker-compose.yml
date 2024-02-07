@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+    server:
+        build:
+            context: ../..
+            dockerfile: ./.docker/e2e/Dockerfile
+        image: templaate/server:staging
+        container_name: server
+        depends_on:
+            - db
+        networks:
+            - templaate
+        ports:
+            - "3000:3000"
+        volumes:
+            - ../..:/usr/src/app
+            - /usr/src/app/node_modules
+        environment:
+            NODE_ENV: development
+            PORT: 3000
+            DATABASE_HOST: db
+            DATABASE_PORT: 5433
+            DATABASE_NAME: db_name
+            DATABASE_USERNAME: db_user
+            DATABASE_PASSWORD: db_password
+            DATABASE_LOGGING: true
+            DATABASE_SYNCHRONIZE: true
+            ACCESS_TOKEN_KEY: x-access-token-secret
+            ACCESS_TOKEN_EXPIRATION: 25m
+            REFRESH_TOKEN_KEY: x-refresh-token-secret
+            REFRESH_TOKEN_EXPIRATION: 4w
+        command: pnpm test:e2e
+    db:
+        image: postgres
+        restart: always
+        container_name: database
+        networks:
+            - templaate
+        ports:
+            - "5433:5432"
+        environment:
+            POSTGRES_DB: db
+            POSTGRES_USER: db_user
+            POSTGRES_PASSWORD: db_password
+        volumes:
+            - pgdata_e2e:/var/lib/postgresql/data
+
+volumes:
+    pgdata_e2e:
+
+networks:
+    templaate:
+        external: true

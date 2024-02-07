@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "3730b66a-33d8-4414-856a-d368ab6de3c1",
+		"name": "Books",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25553455"
+	},
+	"item": [
+		{
+			"name": "Get all books",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a book by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/books/search?id=d02774ec-0cf1-4fe4-992a-ebb6d1aeaa90",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"search"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "d02774ec-0cf1-4fe4-992a-ebb6d1aeaa90"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a book by title and author",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/books/search?title=vero minus fugit&author=Rhoda Howe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "vero minus fugit"
+						},
+						{
+							"key": "author",
+							"value": "Rhoda Howe"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"{{$randomLoremWords}}\",\n    \"author\": \"{{$randomFirstName}} {{$randomLastName}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a book",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"{{$randomLoremWords}}\",\n    \"author\": \"{{$randomFirstName}} {{$randomLastName}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/books/:book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						":book"
+					],
+					"variable": [
+						{
+							"key": "book",
+							"value": "b4a70acd-336d-4eee-86ef-a0f0e60dbb90"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a book",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/books/:book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						":book"
+					],
+					"variable": [
+						{
+							"key": "book",
+							"value": "37686108-ca67-4aa3-a687-f688f0b6cf44"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

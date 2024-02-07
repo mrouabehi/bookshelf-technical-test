@@ -1,0 +1,17 @@
+version: 3
+
+tasks:
+    start:dev:
+        cmd: docker compose -f .docker/development/docker-compose.yml up --detach --build
+    stop:dev:
+        cmd: docker compose -f .docker/development/docker-compose.yml down -v
+
+    test:unit:
+        cmds:
+            - pnpm test
+    test:unit:watch:
+        cmds:
+            - pnpm test:watch
+    test:e2e:
+        cmds:
+            - docker-compose -f .docker/e2e/docker-compose.yml up --abort-on-container-exit --exit-code-from server
